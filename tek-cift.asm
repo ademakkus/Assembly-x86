@@ -1,0 +1,49 @@
+DATA SEGMENT
+MSG1  DB 'sayi giriniz :','$'
+
+MSG2  DB 13,10, 'girilen CIFT sayi ','$'
+
+MSG3  DB 13,10, 'girilen TEK sayi ','$'
+
+DATA ENDS
+
+
+DISPLAY MACRO MSG
+    MOV AH,9
+    LEA DX,MSG
+    INT 21H
+
+ENDM 
+ CODE SEGMENT   
+    
+ ASSUME CS:CODE,DS:DATA
+ START:
+ MOV AX,DATA
+ MOV DS,AX  
+ 
+ DISPLAY MSG1 
+ ENDM
+ 
+ MOV   AH,1
+ INT 21H
+ MOV AH,0
+ CHECK: MOV DL,2
+ DIV DL
+ CMP AH,0
+ JNE ODD
+ EVEN: 
+ 
+ DISPLAY MSG2 
+ ENDM 
+ 
+ JMP DONE
+ ODD:
+ DISPLAY MSG3 
+ ENDM
+ 
+ DONE:
+ MOV AH,4CH
+ INT 21H
+ CODE ENDS 
+ 
+ END START
